@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Decrypt</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" href="icon.png">
+  <link rel="apple-touch-icon" href="icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="theme-color" content="#070a12">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="screen field-dec">
+    <div class="top-bar">
+      <span class="title title-dec">DECRYPT</span>
+      <a href="index.html" class="btn-home">HOME</a>
+    </div>
+
+    <!-- Button nun oben über dem Input -->
+    <button id="mainActionBtn" class="action-btn btn-dec" onclick="executeDecrypt()">Decrypt</button>
+
+    <div class="field-group">
+      <label>INPUT</label>
+      <textarea id="workInput" placeholder="Paste cipher..." autofocus></textarea>
+    </div>
+
+    <div class="field-group" style="margin-top: 10px;">
+      <label>OUTPUT</label>
+      <textarea id="workOutput" class="clickable-output" readonly placeholder="Result..." onclick="copyOutput()"></textarea>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" style="background: #ec4899;">Copied to clipboard!</div>
+
+  <script src="crypto.js"></script>
+  <script>
+    const activeKey = sessionStorage.getItem("krypto_key");
+    if (!activeKey) window.location.href = "index.html";
+
+    document.getElementById("workInput").addEventListener("keydown", function(e) {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        executeDecrypt();
+      }
+    });
+
+    async function executeDecrypt() {
+      const input = document.getElementById("workInput");
+      const text = input.value.trim();
+      if (!text) return;
+
+      try {
+        const decrypted = await decryptMessage(text, activeKey);
+        document.getElementById("workOutput").value = decrypted;
+        input.value = "";
+      } catch (e) {
+        alert("Invalid key or corrupt data.");
+      }
+    }
+
+    async function copyOutput() {
+      const output = document.getElementById("workOutput");
+      if (!output.value) return;
+
+      await navigator.clipboard.writeText(output.value);
+
+      const toast = document.getElementById("toast");
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 1500);
+    }
+  </script>
+</body>
+</html>

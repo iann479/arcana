@@ -1,0 +1,231 @@
+:root {
+  --bg: #070a12;
+  --input-bg: #0b1120;
+  --border: #1e293b;
+  --text: #f8fafc;
+  --muted: #64748b;
+  --enc-from: #0070f3;
+  --enc-to: #00dfd8;
+  --dec-from: #7928ca;
+  --dec-to: #ff0080;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background-color: var(--bg);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  color: var(--text);
+  user-select: none;
+  overscroll-behavior: none;
+  position: fixed;
+}
+
+/* Fixierter Screen – kein Hochspringen bei Tastatur */
+.screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  max-width: 440px;
+  height: 100vh;
+  margin: 0 auto;
+  padding: calc(env(safe-area-inset-top) + 12px) 16px 20px 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  overflow: hidden;
+}
+
+/* Obere Zeile */
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 40px;
+  margin-bottom: 8px;
+  flex-shrink: 0;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+}
+
+.title-enc { color: #00dfd8; }
+.title-dec { color: #ff0080; }
+
+.btn-home {
+  background: #1e293b;
+  color: #f8fafc;
+  border: 1px solid #334155;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 7px 15px;
+  border-radius: 8px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-home:active {
+  background: #334155;
+  transform: scale(0.96);
+}
+
+/* Labels */
+label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+  margin-top: 2px;
+}
+
+/* Textfelder */
+.field-group {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+input[type="password"] {
+  width: 100%;
+  background: var(--input-bg);
+  border: 1.5px solid #0284c7;
+  color: #fff;
+  padding: 13px;
+  border-radius: 12px;
+  font-size: 16px;
+  outline: none;
+}
+
+textarea {
+  width: 100%;
+  height: 120px;
+  background: var(--input-bg);
+  border: 1.5px solid #0284c7;
+  color: #fff;
+  padding: 12px;
+  border-radius: 14px;
+  font-size: 16px;
+  font-family: ui-monospace, SFMono-Regular, monospace;
+  resize: none;
+  outline: none;
+}
+
+.field-dec input[type="password"],
+.field-dec textarea {
+  border-color: #0284c7;
+}
+
+.clickable-output {
+  cursor: pointer;
+}
+
+.clickable-output:active {
+  border-color: #38bdf8;
+  background: #111c38;
+}
+
+/* Action Button */
+.action-btn {
+  width: 100%;
+  padding: 13px;
+  font-size: 15px;
+  font-weight: 700;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  margin-bottom: 10px;
+  flex-shrink: 0;
+}
+
+.btn-enc {
+  background: linear-gradient(90deg, #0284c7 0%, #06b6d4 100%);
+}
+
+.btn-dec {
+  background: linear-gradient(90deg, #9333ea 0%, #ec4899 100%);
+}
+
+.action-btn:active {
+  transform: scale(0.98);
+}
+
+/* Startseite Layout - spürbar weiter oben */
+.home-screen {
+  justify-content: flex-start;
+  padding-top: calc(env(safe-area-inset-top) + 6vh);
+}
+
+.home-title {
+  font-size: 26px;
+  font-weight: 800;
+  text-align: center;
+  letter-spacing: -0.5px;
+  margin-bottom: 24px;
+}
+
+.home-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.home-btn {
+  padding: 16px;
+  border-radius: 12px;
+  border: none;
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: center;
+}
+
+.home-btn:active {
+  transform: scale(0.98);
+}
+
+/* Toast Nachricht beim Kopieren */
+.toast {
+  position: fixed;
+  bottom: calc(env(safe-area-inset-bottom) + 24px);
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: #0284c7;
+  color: #fff;
+  font-weight: 700;
+  font-size: 13px;
+  padding: 10px 22px;
+  border-radius: 30px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 200;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Krypto</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" href="icon.png">
+  <link rel="apple-touch-icon" href="icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="theme-color" content="#070a12">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="screen home-screen">
+    <div class="home-title">AES-256</div>
+
+    <div>
+      <label for="masterKey">PASSWORD</label>
+      <input type="password" id="masterKey" placeholder="Enter key..." autofocus>
+    </div>
+
+    <div class="home-grid">
+      <button class="home-btn btn-enc" onclick="goTo('encrypt.html')">Encrypt</button>
+      <button class="home-btn btn-dec" onclick="goTo('decrypt.html')">Decrypt</button>
+    </div>
+  </div>
+
+  <script>
+    function goTo(page) {
+      const key = document.getElementById("masterKey").value;
+      if (!key) {
+        document.getElementById("masterKey").focus();
+        return;
+      }
+      sessionStorage.setItem("krypto_key", key);
+      window.location.href = page;
+    }
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js');
+    }
+  </script>
+</body>
+</html>
